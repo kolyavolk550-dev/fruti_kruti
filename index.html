@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Fruti Kruti Games</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#090a0f;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .app{max-width:760px;margin:auto;padding:14px 14px 105px}
+    .top{display:flex;justify-content:flex-end;gap:9px;align-items:center;margin:4px 2px 14px}
+    .pill{background:#1b1d25;border-radius:24px;padding:10px 14px;font-weight:700;font-size:14px}
+    .stars{color:#ffd34e}.banner{height:132px;border-radius:24px;padding:18px;display:flex;align-items:center;overflow:hidden;
+      background:linear-gradient(135deg,#ff9d38,#ffcf5a 48%,#7ee8a0);position:relative}
+    .banner:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-35px;top:-50px;background:rgba(255,255,255,.18)}
+    .banner h2{margin:0;font-size:24px;max-width:260px;position:relative;z-index:1}.banner p{margin:7px 0 0;font-size:14px;position:relative;z-index:1}
+    h2.section{font-size:22px;margin:25px 4px 12px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .game{border:0;color:#fff;min-height:158px;border-radius:20px;padding:12px 10px;display:flex;flex-direction:column;justify-content:flex-end;text-align:left;
+      font-size:17px;font-weight:800;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+    .game .ico{font-size:48px;margin-bottom:auto;align-self:center}.g1{background:linear-gradient(160deg,#5c87ff,#8e5de6)}
+    .g2{background:linear-gradient(160deg,#ff6686,#f13b6d)}.g3{background:linear-gradient(160deg,#35df9a,#138f73)}
+    .g4{background:linear-gradient(160deg,#ff6666,#c93645)}.g5{background:linear-gradient(160deg,#2087ae,#183f59)}.g6{background:linear-gradient(160deg,#ffd86a,#d88d45)}
+    .nav{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);width:min(720px,calc(100% - 20px));background:rgba(31,32,42,.94);backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:7px;display:grid;grid-template-columns:repeat(4,1fr);z-index:10}
+    .nav button{border:0;background:none;color:#9ca0af;padding:9px 4px;border-radius:22px;font-size:12px;font-weight:700}.nav button.active{background:#30333d;color:#42e6a2}
+    .nav .ni{display:block;font-size:22px;margin-bottom:2px}.page{display:none}.page.active{display:block}
+    .card{background:#151720;border-radius:20px;padding:18px;margin:10px 0}.row{display:flex;justify-content:space-between;align-items:center}
+    .avatar{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;background:#42e6a2;color:#07110d;font-size:28px;font-weight:900}
+    .muted{color:#9ca0af}.btn{border:0;border-radius:15px;background:#42e6a2;color:#07110d;font-weight:800;padding:12px 16px}
+    @media(max-width:420px){.grid{gap:8px}.game{min-height:145px}.game .ico{font-size:42px}.banner{height:120px}.banner h2{font-size:21px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="page active" id="home">
+    <div class="top"><div class="pill">⚙️</div><div class="pill stars">⭐ <span id="balance">0</span></div></div>
+    <div class="banner"><div><h2>FRUTI KRUTI 🎮</h2><p>Играй • выигрывай • поднимайся в рейтинге</p></div></div>
+    <h2 class="section">🔥 Лучшие игры</h2>
+    <div class="grid">
+      <button class="game g1"><span class="ico">🚀</span>Ракетка</button>
+      <button class="game g2"><span class="ico">💣</span>Мины</button>
+      <button class="game g3"><span class="ico">🟢</span>PVP</button>
+    </div>
+    <h2 class="section">⚡ Быстрые игры</h2>
+    <div class="grid">
+      <button class="game g4"><span class="ico">🥊</span>UFC</button>
+      <button class="game g5"><span class="ico">⛏️</span>Кирка</button>
+      <button class="game g6"><span class="ico">🟡</span>Плинко</button>
+      <button class="game g1"><span class="ico">🎰</span>MineSlot</button>
+      <button class="game g2"><span class="ico">💥</span>Кейс</button>
+      <button class="game g3"><span class="ico">🐸</span>Pepe Jump</button>
+    </div>
+  </div>
+
+  <div class="page" id="cases">
+    <h2 class="section">🎁 Кейсы</h2>
+    <div class="card"><div class="row"><div><b>Бесплатный кейс</b><div class="muted">Открывай и получай награду</div></div><button class="btn">Открыть</button></div></div>
+    <div class="card"><div class="row"><div><b>Редкий кейс</b><div class="muted">Особые призы</div></div><button class="btn">Скоро</button></div></div>
+  </div>
+
+  <div class="page" id="leaders">
+    <h2 class="section">🏆 Лидеры</h2>
+    <div class="card"><div class="row"><b>🥇 1. FrutiKing</b><b>9 950 ⭐</b></div></div>
+    <div class="card"><div class="row"><b>🥈 2. KrutiPro</b><b>8 420 ⭐</b></div></div>
+    <div class="card"><div class="row"><b>🥉 3. Player</b><b>7 810 ⭐</b></div></div>
+    <div class="card"><div class="row"><span>Твоё место</span><b>#—</b></div></div>
+  </div>
+
+  <div class="page" id="profile">
+    <h2 class="section">👤 Профиль</h2>
+    <div class="card"><div class="row"><div class="avatar" id="avatar">F</div><div style="flex:1;margin-left:14px"><b id="name">Игрок Fruti Kruti</b><div class="muted" id="username">@player</div></div></div></div>
+    <div class="card"><div class="row"><span>⭐ Баланс</span><b><span id="balance2">0</span> Stars</b></div></div>
+    <div class="card"><div class="row"><span>🎮 Игр сыграно</span><b>0</b></div></div>
+    <div class="card"><div class="row"><span>🏆 Побед</span><b>0</b></div></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="active" data-page="home"><span class="ni">🏠</span>Главная</button>
+  <button data-page="cases"><span class="ni">🎁</span>Кейсы</button>
+  <button data-page="leaders"><span class="ni">🏆</span>Лидеры</button>
+  <button data-page="profile"><span class="ni">👤</span>Профиль</button>
+</nav>
+
+<script>
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand(); if(tg.initDataUnsafe?.user){
+  const u=tg.initDataUnsafe.user;
+  document.getElementById('name').textContent=(u.first_name||'Игрок')+(u.last_name?' '+u.last_name:'');
+  document.getElementById('username').textContent=u.username?'@'+u.username:'Telegram пользователь';
+  document.getElementById('avatar').textContent=(u.first_name||'F').charAt(0).toUpperCase();
+}}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById(b.dataset.page).classList.add('active');
+  window.scrollTo(0,0);
+});
+</script>
+</body>
+</html>
