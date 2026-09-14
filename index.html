@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#070913">
+<title>FRUTI KRUTI Games — AAA</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --bg:#070913;--panel:#0e1220;--panel2:#151a2a;--line:#27304a;
+  --text:#f7f8ff;--muted:#8f9ab8;--cyan:#5be7ff;--violet:#9b6cff;
+  --green:#45f0a1;--red:#ff5574;--gold:#ffd76a;--shadow:0 22px 70px #0009;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:#05060b;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{overflow-x:hidden}
+button,input{font:inherit}
+button{border:0;color:inherit}
+.app{width:100%;max-width:560px;margin:auto;min-height:100vh;background:
+ radial-gradient(circle at 50% -10%,#23345c55,transparent 38%),
+ linear-gradient(180deg,#080a14 0,#060812 60%,#05060b 100%);
+ position:relative;overflow:hidden}
+.app:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(to bottom,#000,transparent 75%)}
+.top{padding:calc(14px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:5}
+.brand{display:flex;gap:10px;align-items:center}.logo{width:40px;height:40px;border-radius:13px;background:linear-gradient(145deg,#6ff0ff,#725bff);box-shadow:0 0 30px #6ddcff55;display:grid;place-items:center;font-weight:1000;font-size:18px}.brand b{font-size:14px;letter-spacing:.5px}.brand small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.balance{background:#101625dd;border:1px solid #34415f;border-radius:14px;padding:8px 11px;text-align:right;box-shadow:0 10px 30px #0005}.balance span{display:block;font-size:9px;color:#8490ad;text-transform:uppercase}.balance b{font-size:14px;color:#fff}
+.screen{display:none;padding:0 14px 100px;position:relative;z-index:2}.screen.active{display:block;animation:in .28s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero{height:235px;border:1px solid #27324e;border-radius:27px;overflow:hidden;position:relative;background:linear-gradient(180deg,#111a34,#080b17 72%);box-shadow:var(--shadow)}
+.hero .copy{position:absolute;left:20px;top:19px;z-index:2}.eyebrow{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:2px}.hero h1{font-size:29px;line-height:1;margin:7px 0 6px}.hero p{margin:0;color:#aeb7cf;font-size:12px;max-width:220px}
+.hero svg{position:absolute;inset:0;width:100%;height:100%}.hero .cta{position:absolute;left:20px;bottom:18px;padding:11px 16px;border-radius:12px;background:#fff;color:#080a12;font-weight:900;font-size:12px;box-shadow:0 8px 25px #0007}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:20px 3px 10px}.section-title b{font-size:16px}.section-title span{font-size:10px;color:#77829d}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.card{height:158px;border:1px solid #26304a;border-radius:21px;position:relative;overflow:hidden;background:#0c101c;box-shadow:0 12px 35px #0008;cursor:pointer;transition:.18s transform,.18s border-color}.card:active{transform:scale(.97);border-color:#667ba9}.card svg{position:absolute;inset:0;width:100%;height:100%}.card .shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 32%,#060810e8 100%)}.card .label{position:absolute;left:13px;bottom:12px}.card .label b{font-size:15px}.card .label small{display:block;color:#8995b1;font-size:9px;margin-top:2px}.tag{position:absolute;right:10px;top:10px;background:#0b1020cc;border:1px solid #35415f;border-radius:8px;padding:4px 6px;font-size:8px;font-weight:900}
+.nav{position:fixed;z-index:20;bottom:0;left:50%;transform:translateX(-50%);width:min(560px,100%);padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:#080a12dd;backdrop-filter:blur(20px);border-top:1px solid #222b42;display:flex;justify-content:space-around}.nav button{background:none;color:#66718c;font-size:9px;font-weight:800;min-width:64px;padding:5px}.nav button span{display:block;font-size:19px;margin-bottom:2px}.nav button.active{color:#fff}.nav button.active span{filter:drop-shadow(0 0 8px #6feaff)}
+.game-head{display:flex;align-items:center;justify-content:space-between;margin:4px 0 10px}.back{background:#121727;border:1px solid #293550;border-radius:11px;padding:8px 10px;font-size:11px}.game-title{font-size:18px;font-weight:950}.demo{font-size:8px;color:#7e8aa7;border:1px solid #293550;border-radius:8px;padding:5px 7px}
+.scene{height:390px;border:1px solid #293550;border-radius:25px;overflow:hidden;position:relative;background:#090d19;box-shadow:var(--shadow);margin-bottom:12px}.hud{position:absolute;z-index:6;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none}.pill{background:#080b15bb;border:1px solid #303b58;backdrop-filter:blur(10px);border-radius:10px;padding:7px 9px;font-size:10px;font-weight:900}.mult{position:absolute;z-index:5;left:50%;top:55%;transform:translate(-50%,-50%);font-size:47px;font-weight:1000;letter-spacing:-3px;text-shadow:0 5px 30px #000}.mult em{font-style:normal;font-size:17px;color:#8994ae;letter-spacing:0}.game-controls{border:1px solid #28324b;border-radius:19px;background:#0d1220;padding:12px;box-shadow:0 12px 35px #0006}.row{display:flex;gap:8px}.field{flex:1;background:#080b14;border:1px solid #252f47;border-radius:12px;padding:10px}.field small{display:block;color:#6e7a96;font-size:9px}.field input{width:100%;background:none;border:0;outline:0;color:#fff;font-size:15px;font-weight:900;margin-top:3px}.primary,.danger{width:100%;margin-top:9px;border-radius:13px;padding:13px;font-weight:950;background:linear-gradient(135deg,#54e8ff,#7165ff);box-shadow:0 10px 28px #5a8fff33}.danger{background:linear-gradient(135deg,#ff6684,#ff3f5e)}.primary:disabled{opacity:.45}.secondary{background:#151b2b;border:1px solid #2b3753;border-radius:12px;padding:11px;font-weight:900}
+canvas{width:100%;height:100%;display:block}
+
+/* UFC */
+.oct{position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,#3a4154 0,#171c29 30%,#080b13 72%)}.lights{position:absolute;top:0;left:0;right:0;height:85px;background:repeating-linear-gradient(90deg,transparent 0 35px,#dff8ff22 36px 39px);filter:blur(1px);transform:perspective(150px) rotateX(55deg)}.cage{position:absolute;width:88%;height:66%;left:6%;top:19%;border:3px solid #9ba7b9aa;clip-path:polygon(9% 0,91% 0,100% 15%,100% 85%,91% 100%,9% 100%,0 85%,0 15%);box-shadow:0 0 30px #a5c9ff22,inset 0 0 30px #000}.mat{position:absolute;inset:8%;background:radial-gradient(circle,#3c465a,#151b27 70%);clip-path:polygon(9% 0,91% 0,100% 15%,100% 85%,91% 100%,9% 100%,0 85%,0 15%)}.fighter{position:absolute;bottom:78px;width:90px;height:170px;filter:drop-shadow(0 20px 15px #000);transition:.16s}.fighter .head{position:absolute;top:3px;left:31px;width:29px;height:31px;border-radius:50%;background:linear-gradient(145deg,#e8b187,#8d4f3b)}.fighter .body{position:absolute;top:31px;left:22px;width:48px;height:74px;background:linear-gradient(90deg,#171c2b,#59647a,#121827);clip-path:polygon(20% 0,80% 0,100% 100%,0 100%)}.fighter .arm{position:absolute;top:43px;width:17px;height:75px;border-radius:12px;background:#b56d50;transform-origin:top}.fighter .a1{left:9px;transform:rotate(25deg)}.fighter .a2{right:5px;transform:rotate(-45deg)}.fighter .leg{position:absolute;top:99px;width:21px;height:72px;border-radius:13px;background:#252b3b;transform-origin:top}.fighter .l1{left:23px;transform:rotate(8deg)}.fighter .l2{left:49px;transform:rotate(-8deg)}.fighter.red{left:22%;animation:stance 1.4s infinite ease-in-out}.fighter.blue{right:22%;transform:scaleX(-1);animation:stance2 1.4s infinite ease-in-out}@keyframes stance{50%{transform:translateX(4px) rotate(-2deg)}}@keyframes stance2{50%{transform:scaleX(-1) translateX(4px) rotate(-2deg)}}.vs{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);font-size:31px;font-weight:1000;color:#fff;text-shadow:0 0 20px #ff4e6d}.hit{position:absolute;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,#fff,#ffbf54 8%,#ff425a22 45%,transparent 65%);opacity:0;pointer-events:none}.hit.on{animation:hit .4s ease-out}@keyframes hit{0%{opacity:1;transform:scale(.25)}100%{opacity:0;transform:scale(1.5)}}
+.hpbox{position:absolute;left:13px;right:13px;top:52px;display:flex;gap:8px;z-index:5}.hp{height:9px;flex:1;background:#0a0d16;border:1px solid #303a54;border-radius:10px;overflow:hidden}.hp i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#49ef9c,#d7ff77);transition:.35s}.hp:last-child i{background:linear-gradient(90deg,#ff5475,#ffbf63)}
+/* Mines */
+.mine-grid{position:absolute;inset:45px 20px 35px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.minecell{position:relative;border:1px solid #36425d;border-radius:11px;background:linear-gradient(145deg,#273249,#101522);box-shadow:inset 0 2px 2px #ffffff12,0 7px 12px #0008;cursor:pointer;overflow:hidden}.minecell:after{content:"";position:absolute;inset:4px;border-radius:8px;border:1px solid #ffffff06}.minecell.open{background:radial-gradient(circle,#62f0ff55,#172237);animation:open .35s ease}.minecell.mine{background:radial-gradient(circle,#ff647b,#431a29 45%,#111521);animation:boom .55s ease}.gem{position:absolute;inset:0;display:grid;place-items:center;font-size:22px}.minecell .shine{position:absolute;width:60px;height:120px;left:-70px;top:-20px;background:#fff3;transform:rotate(25deg);animation:shine 2s infinite}@keyframes shine{50%,100%{left:130px}}@keyframes open{0%{transform:rotateX(80deg) scale(.7)}100%{transform:none}}@keyframes boom{20%{transform:scale(1.12);filter:brightness(2)}100%{transform:scale(1)}}
+/* Plinko */
+.plinko{position:absolute;inset:0;background:radial-gradient(circle at 50% 10%,#242e50,#0a0d18 70%)}.pegs{position:absolute;left:11%;right:11%;top:55px;bottom:92px}.peg{position:absolute;width:7px;height:7px;background:#d9e5ff;border-radius:50%;box-shadow:0 0 9px #a6ddff}.ball{position:absolute;width:17px;height:17px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#b98aff 25%,#6e39ff 70%);box-shadow:0 0 20px #9a6cff;left:50%;top:30px;z-index:3}.slots{position:absolute;bottom:13px;left:10px;right:10px;display:flex;gap:4px;height:55px}.slot{flex:1;border:1px solid #36415d;border-radius:8px;background:linear-gradient(180deg,#1d263d,#0d111d);display:grid;place-items:center;font-weight:1000;font-size:11px;color:#b9c3dd}.slot.win{color:#fff;background:linear-gradient(180deg,#6842d9,#25184c);box-shadow:0 0 22px #8f6cff88}
+/* Slot */
+.slotmachine{position:absolute;inset:0;padding:44px 18px 20px;background:radial-gradient(circle at 50% 0,#303b62,#090c15 66%)}.machine-frame{height:285px;border:8px solid #6b7389;border-radius:30px;background:linear-gradient(145deg,#2d3343,#0b0e16);box-shadow:inset 0 0 0 2px #d9e0ef33,0 20px 40px #000;display:flex;align-items:center;justify-content:center;gap:7px;padding:17px}.reel{height:220px;flex:1;border-radius:17px;background:linear-gradient(90deg,#0a0d14,#222a3c,#0a0d14);border:2px solid #48536b;overflow:hidden;display:grid;place-items:center;position:relative;font-size:45px;box-shadow:inset 0 0 30px #000}.reel b{transition:.12s}.reel.spin b{animation:reel .16s linear infinite}@keyframes reel{0%{transform:translateY(-10px);filter:blur(2px)}50%{transform:translateY(10px);filter:blur(3px)}100%{transform:none;filter:blur(1px)}}.winline{position:absolute;left:15px;right:15px;top:50%;height:3px;background:#ffd76a;box-shadow:0 0 12px #ffd76a;opacity:.7}.jack{margin-top:15px;text-align:center;font-size:12px;color:#aeb8d0}
+/* Case */
+.case-scene{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,#453a20,#11100d 60%,#08090e)}.case3d{position:absolute;left:50%;top:49%;width:220px;height:145px;transform:translate(-50%,-50%) perspective(600px) rotateX(16deg) rotateY(-9deg);background:linear-gradient(145deg,#ffdf76,#a66a17 60%,#5e3a10);border-radius:18px;border:5px solid #ffd76a;box-shadow:0 35px 55px #000,0 0 50px #ffb52d55}.case3d:before{content:"";position:absolute;inset:20px;border:3px solid #fff3a655;border-radius:10px}.case3d:after{content:"FK";position:absolute;inset:0;display:grid;place-items:center;font-size:45px;font-weight:1000;color:#fff8b8;text-shadow:0 4px 12px #7d4b00}.case3d.open{animation:caseopen .8s ease-in-out}@keyframes caseopen{50%{transform:translate(-50%,-70%) perspective(600px) rotateX(-12deg) rotateY(9deg);filter:brightness(1.6)}100%{transform:translate(-50%,-50%) perspective(600px) rotateX(16deg) rotateY(-9deg)}}.reward{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%) scale(.2);opacity:0;text-align:center;background:#101523ee;border:1px solid #ffe083;border-radius:18px;padding:18px 35px;z-index:4}.reward.show{animation:reward 1s .2s forwards}@keyframes reward{45%{opacity:1;transform:translate(-50%,-95%) scale(1.15)}100%{opacity:1;transform:translate(-50%,-100%) scale(1)}}.reward strong{display:block;font-size:28px;color:#ffd76a}.reward small{color:#aab5cf}
+/* Pickaxe */
+.mine-scene{position:absolute;inset:0;background:linear-gradient(180deg,#101522,#07090e)}.rock{position:absolute;background:linear-gradient(145deg,#343a48,#111520);clip-path:polygon(12% 18%,45% 0,88% 15%,100% 55%,76% 100%,25% 90%,0 55%);filter:drop-shadow(0 20px 18px #000)}.crystal{position:absolute;width:18px;height:48px;background:linear-gradient(90deg,#8a62ff,#d8b8ff,#6942d8);clip-path:polygon(50% 0,100% 20%,80% 100%,20% 100%,0 20%);filter:drop-shadow(0 0 15px #9a6cff)}.pickaxe{position:absolute;width:145px;height:145px;left:50%;top:42%;transform:translate(-50%,-50%) rotate(-25deg);transition:.12s}.pickaxe .handle{position:absolute;width:15px;height:135px;left:66px;top:17px;border-radius:10px;background:linear-gradient(90deg,#673d1f,#d89b51,#5d351a)}.pickaxe .head{position:absolute;width:105px;height:28px;left:25px;top:0;border-radius:18px;background:linear-gradient(180deg,#eef3ff,#606a7f);transform:rotate(-10deg);box-shadow:0 5px 15px #000}.pickaxe.hit{animation:swing .38s ease}@keyframes swing{50%{transform:translate(-50%,-50%) rotate(38deg) scale(1.08)}}.crack{position:absolute;left:50%;top:50%;width:90px;height:90px;transform:translate(-50%,-50%);border:2px solid transparent;border-left-color:#bfa4ff;border-bottom-color:#bfa4ff;border-radius:50%;opacity:0}.crack.show{animation:crack .5s}@keyframes crack{0%{opacity:1;transform:translate(-50%,-50%) scale(.2)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.3)}}
+/* Pepe */
+.pepe-scene{position:absolute;inset:0;background:linear-gradient(#5a91d5 0,#a9d9ed 55%,#4d6b3f 56%,#1c2d1d 100%);overflow:hidden}.cloud{position:absolute;width:90px;height:28px;border-radius:30px;background:#ffffffaa;filter:blur(1px);animation:cloud 8s linear infinite}.cloud:before,.cloud:after{content:"";position:absolute;border-radius:50%;background:#ffffffaa}.cloud:before{width:45px;height:45px;left:15px;bottom:0}.cloud:after{width:55px;height:55px;right:8px;bottom:-2px}@keyframes cloud{from{transform:translateX(360px)}to{transform:translateX(-130px)}}.ground{position:absolute;bottom:0;left:0;right:0;height:44%;background:repeating-linear-gradient(135deg,#314e2e 0 18px,#284329 18px 36px);border-top:3px solid #8bbf5d}.pepe{position:absolute;left:24%;bottom:35%;width:76px;height:90px;animation:jump 1.1s infinite ease-in-out}.pepe .face{width:72px;height:58px;border-radius:48% 48% 42% 42%;background:linear-gradient(#69bf68,#27703c);position:absolute;top:0}.pepe .eye{position:absolute;width:17px;height:25px;background:#fff;border-radius:50%;top:12px}.pepe .eye:after{content:"";position:absolute;width:7px;height:12px;background:#111;border-radius:50%;left:5px;top:7px}.pepe .e1{left:10px}.pepe .e2{right:10px}.pepe .mouth{position:absolute;left:18px;bottom:5px;width:37px;height:15px;background:#371c25;border-radius:0 0 20px 20px}.pepe .body{position:absolute;left:16px;top:50px;width:40px;height:37px;background:#3a884a;border-radius:12px}.obstacle{position:absolute;right:12%;bottom:34%;width:45px;height:70px;background:linear-gradient(90deg,#4b3527,#9a6a43,#4c3323);clip-path:polygon(15% 0,80% 8%,100% 100%,0 100%)}@keyframes jump{0%,100%{transform:translateY(0)}50%{transform:translateY(-70px) rotate(-4deg)}}
+/* utility */
+.toast{position:fixed;z-index:50;left:50%;bottom:92px;transform:translate(-50%,20px);background:#111829ee;border:1px solid #35415e;border-radius:12px;padding:10px 14px;font-size:11px;opacity:0;pointer-events:none;transition:.25s;box-shadow:0 15px 35px #0008}.toast.show{opacity:1;transform:translate(-50%,0)}
+.modal{position:fixed;z-index:40;inset:0;background:#02030a99;backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:25px}.modal.show{display:flex}.modalbox{width:min(420px,100%);border:1px solid #394661;border-radius:22px;background:#0c111e;padding:20px;text-align:center;box-shadow:0 30px 100px #000}.modalbox h2{margin:5px 0}.modalbox p{color:#8f9ab8;font-size:12px}
+@media(min-width:600px){.app{box-shadow:0 0 100px #000}.nav{border-radius:20px 20px 0 0}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="logo">FK</div><div><b>FRUTI KRUTI</b><small>GAMES / DEMO ARENA</small></div></div>
+  <div class="balance"><span>баланс</span><b id="balTop">1 000 🪙</b></div>
+</header>
+
+<main id="home" class="screen active">
+  <section class="hero">
+    <div class="copy"><div class="eyebrow">NEXT LEVEL PLAYGROUND</div><h1>ИГРАЙ.<br>РИСКУЙ.<br>ПОБЕЖДАЙ.</h1><p>Оригинальная AAA-style игровая арена FRUTI KRUTI.</p></div>
+    <svg viewBox="0 0 560 235" preserveAspectRatio="none">
+      <defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#263c70"/><stop offset="1" stop-color="#090d19"/></linearGradient><linearGradient id="neon"><stop stop-color="#62efff"/><stop offset="1" stop-color="#9a6cff"/></linearGradient></defs>
+      <rect width="560" height="235" fill="url(#sky)"/><circle cx="455" cy="62" r="40" fill="#fff" opacity=".07"/>
+      <path d="M0 195 Q120 145 230 188 T560 160 V235H0Z" fill="#080c16"/>
+      <path d="M260 180 Q350 110 530 85" fill="none" stroke="#61eaff" stroke-width="2" opacity=".8"/><path d="M260 180 Q350 110 530 85" fill="none" stroke="#7e5cff" stroke-width="10" opacity=".1"/>
+      <g transform="translate(350 120) rotate(-17)"><path d="M0 15 L68 0 L45 19 L75 26 L45 31 L28 24 L0 28Z" fill="#eafaff"/><path d="M20 19 L0 40 L28 24Z" fill="#7d6cff"/><circle cx="52" cy="21" r="4" fill="#64eaff"/></g>
+      <g opacity=".18" fill="#fff"><circle cx="90" cy="55" r="2"/><circle cx="140" cy="90" r="1"/><circle cx="280" cy="45" r="2"/><circle cx="500" cy="110" r="1"/></g>
+    </svg>
+    <button class="cta" onclick="openGame('crash')">▶ ОТКРЫТЬ CRASH</button>
+  </section>
+  <div class="section-title"><b>Игровая арена</b><span>9 режимов</span></div>
+  <div class="grid" id="gameGrid"></div>
+</main>
+
+<section id="crash" class="screen">
+  <div class="game-head"><button class="back" onclick="goHome()">← Назад</button><div class="game-title">✈️ CRASH</div><div class="demo">DEMO</div></div>
+  <div class="scene"><canvas id="crashCanvas"></canvas><div class="hud"><div class="pill" id="crashStatus">ГОТОВ</div><div class="pill">✈️ FLIGHT #<span id="round">001</span></div></div><div class="mult" id="crashMult">1.00<span>x</span></div></div>
+  <div class="game-controls"><div class="row"><label class="field"><small>СТАВКА</small><input id="crashBet" type="number" value="50" min="1"></label><label class="field"><small>AUTO CASHOUT</small><input id="auto" type="number" value="2" min="1.01" step=".1"></label></div><button id="crashStart" class="primary" onclick="startCrash()">ЗАПУСТИТЬ ПОЛЁТ</button><button id="cashBtn" class="danger" style="display:none" onclick="cashCrash()">ЗАБРАТЬ</button></div>
+</section>
+
+<section id="mines" class="screen">
+ <div class="game-head"><button class="back" onclick="goHome()">← Назад</button><div class="game-title">💣 MINES</div><div class="demo">DEMO</div></div>
+ <div class="scene"><div class="mine-grid" id="mineGrid"></div><div class="hud"><div class="pill">МИНЫ: 5</div><div class="pill">SAFE GRID</div></div></div>
+ <div class="game-controls"><div class="row"><label class="field"><small>СТАВКА</small><input id="mineBet" type="number" value="50" min="1"></label><div class="field"><small>ЦЕЛЬ</small><b style="display:block;margin-top:5px">5 × 5</b></div></div><button class="primary" onclick="newMines()">НОВОЕ ПОЛЕ</button></div>
+</section>
+
+<section id="ufc" class="screen">
+ <div class="game-head"><button class="back" onclick="goHome()">← Назад</button><div class="game-title">🥊 UFC ARENA</div><div class="demo">DEMO</div></div>
+ <div class="scene"><div class="oct"><div class="lights"></div><div class="mat"></div><div class="cage"></div><div class="fighter red"><i class="head"></i><i class="body"></i><i class="arm a1"></i><i class="arm a2"></i><i class="leg l1"></i><i class="leg l2"></i></div><div class="fighter blue"><i class="head"></i><i class="body"></i><i class="arm a1"></i><i class="arm a2"></i><i class="leg l1"></i><i class="leg l2"></i></div><div class="vs">VS</div><div id="hit" class="hit"></div><div class="hpbox"><div class="hp"><i id="hp1"></i></div><div class="hp"><i id="hp2"></i></div></div></div><div class="hud"><div class="pill">FIGHT NIGHT</div><div class="pill" id="ufcRound">ROUND 1</div></div></div>
+ <div class="game-controls"><div class="row"><label class="field"><small>СТАВКА</small><input id="ufcBet" type="number" value="50" min="1"></label><button class="secondary" onclick="fight()">⚡ УДАР</button></div><button class="primary" onclick="fight(true)">НАЧАТЬ БОЙ</button></div>
+</section>
+
+<section id="plinko" class="screen">
+ <div class="game-head"><button class="back" onclick="goHome()">← Назад</button><div class="game-title">🟣 PLINKO</div><div class="demo">DEMO</div></div>
+ <div class="scene"><div class="plinko"><div id="pegs" class="pegs"></div><div id="ball" class="ball"></div><div id="slots" class="slots"></div></div><div class="hud"><div class="pill">PHYSICS DROP</div><div class="pill" id="plinkoResult">—</div></div></div>
+ <div class="game-controls"><label class="field"><small>СТАВКА</small><input id="plinkoBet" type="number" value="50" min="1"></label><button class="primary" onclick="dropPlinko()">БРОСИТЬ ШАР</button></div>
+</section>
+
+<section id="mineslot" class="screen">
+ <div class="game-head"><button class="back" onclick="goHome()">← Назад</button><div class="game-title">🎰 MINESLOT</div><div class="demo">DEMO</div></div>
+ <div class="scene"><div class="slotmachine"><div class="machine-frame"><div class="reel"><b id="r1">🍒</b></div><div class="reel"><b id="r2">💎</b></div><div class="reel"><b id="r3">7️⃣</b></div><div class="winline"></div></div><div class="jack" id="slotResult">READY TO SPIN</div></div></div>
+ <div class="game-controls"><label class="field"><small>СТАВКА</small><input id="slotBet" type="number" value="50" min="1"></label><button class="primary" onclick="spinSlots()">ВРАЩАТЬ</button></div>
+</section>
+
+<section id="case" class="screen">
+ <div class="game-head"><button class="back" onclick="goHome()">← Назад</button><div class="game-title">🎁 CASE</div><div class="demo">DEMO</div></div>
+ <div class="scene"><div class="case-scene"><div id="case3d" class="case3d"></div><div id="reward" class="reward"><strong id="rewardVal">+0</strong><small>награда получена</small></div></div><div class="hud"><div class="pill">MYSTERY CASE</div><div class="pill">RARITY SYSTEM</div></div></div>
+ <div class="game-controls"><label class="field"><small>СТОИМОСТЬ</small><b style="display:block;margin-top:5px">100 🪙</b></label><button class="primary" onclick="openCase()">ОТКРЫТЬ КЕЙС</button></div>
+</section>
+
+<section id="pickaxe" class="screen">
+ <div class="game-head"><button class="back" onclick="goHome()">← Назад</button><div class="game-title">⛏️ PICKAXE</div><div class="demo">DEMO</div></div>
+ <div class="scene"><div class="mine-scene"><div class="rock" style="width:220px;height:190px;left:7%;top:12%"></div><div class="rock" style="width:250px;height:220px;right:0;bottom:3%"></div><div class="crystal" style="left:19%;top:38%;transform:rotate(-10deg)"></div><div class="crystal" style="left:28%;top:32%;transform:rotate(14deg) scale(.7)"></div><div class="crystal" style="right:20%;top:55%;transform:rotate(-12deg)"></div><div id="pickaxe" class="pickaxe"><i class="head"></i><i class="handle"></i></div><div id="crack" class="crack"></div></div><div class="hud"><div class="pill">DEPTH 084M</div><div class="pill" id="ore">CRYSTAL</div></div></div>
+ <div class="game-controls"><label class="field"><small>СТАВКА</small><input id="pickBet" type="number" value="50" min="1"></label><button class="primary" onclick="mineHit()">УДАРИТЬ ⛏️</button></div>
+</section>
+
+<section id="pepe" class="screen">
+ <div class="game-head"><button class="back" onclick="goHome()">← Назад</button><div class="game-title">🐸 PEPE JUMP</div><div class="demo">DEMO</div></div>
+ <div class="scene"><div class="pepe-scene"><div class="cloud" style="top:35px;left:15%;animation-delay:-2s"></div><div class="cloud" style="top:90px;left:65%;animation-delay:-5s"></div><div class="ground"></div><div class="obstacle"></div><div class="pepe"><div class="face"><i class="eye e1"></i><i class="eye e2"></i><i class="mouth"></i></div><div class="body"></div></div></div><div class="hud"><div class="pill">SCORE <span id="pepeScore">000</span></div><div class="pill">RUN #<span id="run">01</span></div></div></div>
+ <div class="game-controls"><label class="field"><small>СТАВКА</small><input id="pepeBet" type="number" value="50" min="1"></label><button class="primary" onclick="pepePlay()">ПРЫЖОК</button></div>
+</section>
+
+<section id="pvp" class="screen">
+ <div class="game-head"><button class="back" onclick="goHome()">← Назад</button><div class="game-title">⚔️ PVP DUEL</div><div class="demo">DEMO</div></div>
+ <div class="scene" style="background:radial-gradient(circle at 50% 30%,#41345f,#090b14 68%)"><div style="position:absolute;inset:15%;border:2px solid #7967b2;clip-path:polygon(12% 0,88% 0,100% 50%,88% 100%,12% 100%,0 50%);box-shadow:0 0 45px #8f6cff44"></div><div style="position:absolute;left:17%;top:42%;font-size:65px;filter:drop-shadow(0 20px 10px #000)">🧙</div><div style="position:absolute;right:17%;top:42%;font-size:65px;filter:drop-shadow(0 20px 10px #000);transform:scaleX(-1)">🧛</div><div class="vs">VS</div><div class="hud"><div class="pill">MATCHMAKING</div><div class="pill">50 / 50</div></div></div>
+ <div class="game-controls"><label class="field"><small>СТАВКА</small><input id="pvpBet" type="number" value="50" min="1"></label><button class="primary" onclick="pvpPlay()">НАЙТИ СОПЕРНИКА</button></div>
+</section>
+
+<section id="leaders" class="screen">
+ <div class="game-head"><button class="back" onclick="goHome()">← Назад</button><div class="game-title">🏆 ЛИДЕРЫ</div><div></div></div>
+ <div class="game-controls" style="padding:4px 14px"><div class="section-title"><b>TOP PLAYERS</b><span>THIS WEEK</span></div><div id="leaderList"></div></div>
+</section>
+
+<section id="profile" class="screen">
+ <div class="game-head"><button class="back" onclick="goHome()">← Назад</button><div class="game-title">👤 ПРОФИЛЬ</div><div class="demo">DEMO</div></div>
+ <div class="game-controls"><div style="font-size:42px">🦊</div><h2 style="margin:4px 0">FRUTI PLAYER</h2><p style="color:#8490aa;font-size:12px">Добро пожаловать в FRUTI KRUTI Games.</p><button class="secondary" onclick="resetBalance()">Сбросить баланс</button></div>
+</section>
+
+<nav class="nav">
+ <button class="active" data-nav="home" onclick="goHome()"><span>⌂</span>Главная</button>
+ <button data-nav="leaders" onclick="openGame('leaders')"><span>♛</span>Топ</button>
+ <button data-nav="case" onclick="openGame('case')"><span>◈</span>Кейсы</button>
+ <button data-nav="profile" onclick="openGame('profile')"><span>◉</span>Профиль</button>
+</nav>
+<div id="toast" class="toast"></div>
+</div>
+<script>
+const tg=window.Telegram?.WebApp; if(tg){tg.ready();tg.expand();}
+const $=id=>document.getElementById(id);
+let balance=Number(localStorage.getItem('fk_balance')||1000);
+function save(){localStorage.setItem('fk_balance',String(Math.max(0,Math.floor(balance))));$('balTop').textContent=balance.toLocaleString('ru-RU')+' 🪙'}
+function toast(s){const t=$('toast');t.textContent=s;t.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove('show'),1800)}
+function vibrate(type='light'){try{tg?.HapticFeedback?.impactOccurred(type)}catch(e){}}
+function amount(id){const n=Math.floor(Number($(id).value));return Number.isFinite(n)&&n>0?n:0}
+function bet(cost){if(balance<cost){toast('Недостаточно монет');vibrate('heavy');return false}balance-=cost;save();return true}
+function reward(n){balance+=Math.floor(n);save();toast('+'+Math.floor(n)+' 🪙');vibrate('medium')}
+function openGame(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.nav===id));window.scrollTo(0,0);if(id==='crash')requestAnimationFrame(initCrash);if(id==='mines')newMines();if(id==='plinko')initPlinko()}
+function goHome(){openGame('home')}
+const games=[
+ ['crash','CRASH','✈️','2.40x','linear-gradient(135deg,#173d59,#11142a)'],
+ ['mines','MINES','💣','x8.20','linear-gradient(135deg,#263248,#0e1320)'],
+ ['ufc','UFC ARENA','🥊','FIGHT','linear-gradient(135deg,#351b2c,#11121f)'],
+ ['plinko','PLINKO','🟣','x12.00','linear-gradient(135deg,#30205e,#111323)'],
+ ['mineslot','MINESLOT','🎰','JACKPOT','linear-gradient(135deg,#4b3614,#15120d)'],
+ ['case','CASE','🎁','LEGENDARY','linear-gradient(135deg,#4d3512,#17120a)'],
+ ['pickaxe','PICKAXE','⛏️','x6.40','linear-gradient(135deg,#283344,#10131b)'],
+ ['pepe','PEPE JUMP','🐸','LEVEL 27','linear-gradient(135deg,#254f46,#111921)'],
+ ['pvp','PVP DUEL','⚔️','50/50','linear-gradient(135deg,#352557,#10121e)']
+];
+function art(type){
+ const common=`<defs><linearGradient id="g${type}" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>`;
+ if(type==='crash')return `<svg viewBox="0 0 280 160">${common}<rect width="280" height="160" fill="#12213c"/><path d="M0 125 Q70 80 145 120 T280 95V160H0" fill="#08101b"/><path d="M40 125 Q120 85 250 45" fill="none" stroke="#5be7ff" stroke-width="3"/><g transform="translate(145 78) rotate(-17)"><path d="M0 12L54 0L35 15L60 21L33 25L20 19L0 24Z" fill="#fff"/><path d="M17 17L4 34L24 20Z" fill="#866cff"/></g></svg>`;
+ if(type==='mines')return `<svg viewBox="0 0 280 160">${common}<rect width="280" height="160" fill="#101727"/><g transform="translate(32 25)">${Array.from({length:25},(_,i)=>`<rect x="${(i%5)*44}" y="${Math.floor(i/5)*23}" width="37" height="18" rx="5" fill="${i===12?'#5be7ff55':'#26334b'}" stroke="#44516d"/>`).join('')}</g><circle cx="142" cy="92" r="13" fill="#ff5574" opacity=".8"/></svg>`;
+ if(type==='ufc')return `<svg viewBox="0 0 280 160"><rect width="280" height="160" fill="#10131d"/><ellipse cx="140" cy="98" rx="95" ry="48" fill="#30394a" stroke="#aab6ca" stroke-width="3"/><text x="140" y="108" fill="#dbe7ff" text-anchor="middle" font-size="30" font-weight="900">VS</text><circle cx="82" cy="73" r="20" fill="#a96a4e"/><circle cx="198" cy="73" r="20" fill="#a96a4e"/></svg>`;
+ if(type==='plinko')return `<svg viewBox="0 0 280 160"><rect width="280" height="160" fill="#17132a"/><g fill="#dce5ff">${Array.from({length:35},(_,i)=>`<circle cx="${55+(i%7)*29+(Math.floor(i/7)%2?14:0)}" cy="${35+Math.floor(i/7)*20}" r="2.5"/>`).join('')}</g><circle cx="140" cy="20" r="6" fill="#a56cff"/></svg>`;
+ if(type==='mineslot')return `<svg viewBox="0 0 280 160"><rect width="280" height="160" fill="#21170d"/><rect x="28" y="25" width="224" height="105" rx="18" fill="#34394a" stroke="#c6ccd9" stroke-width="6"/><g font-size="38"><text x="58" y="94">🍒</text><text x="120" y="94">💎</text><text x="181" y="94">7</text></g></svg>`;
+ if(type==='case')return `<svg viewBox="0 0 280 160"><rect width="280" height="160" fill="#21190c"/><rect x="63" y="65" width="154" height="66" rx="12" fill="#bc7d20" stroke="#ffdf79" stroke-width="5"/><path d="M67 65L87 40H202L216 65Z" fill="#e3ad42" stroke="#ffdf79" stroke-width="4"/><text x="140" y="110" text-anchor="middle" font-size="27" font-weight="900" fill="#fff3a7">FK</text></svg>`;
+ if(type==='pickaxe')return `<svg viewBox="0 0 280 160"><rect width="280" height="160" fill="#10151e"/><path d="M0 130L45 75L110 98L155 52L220 90L280 60V160H0" fill="#2b3341"/><g fill="#9b6cff"><path d="M70 115l9-40 18 8-7 32z"/><path d="M181 120l10-43 18 8-9 36z"/></g><path d="M130 100L177 35" stroke="#d49b59" stroke-width="10"/><path d="M152 61L205 52" stroke="#dbe4f4" stroke-width="12" stroke-linecap="round"/></svg>`;
+ if(type==='pepe')return `<svg viewBox="0 0 280 160"><rect width="280" height="160" fill="#4c8fc3"/><path d="M0 115H280V160H0" fill="#385c32"/><circle cx="90" cy="70" r="34" fill="#3e914e"/><circle cx="77" cy="59" r="9" fill="#fff"/><circle cx="103" cy="59" r="9" fill="#fff"/><path d="M75 84Q90 99 110 83" stroke="#371c25" stroke-width="7" fill="none"/><path d="M215 92l-18 23h38z" fill="#76523b"/></svg>`;
+ return `<svg viewBox="0 0 280 160"><rect width="280" height="160" fill="#201735"/><text x="140" y="100" text-anchor="middle" font-size="50">${games.find(x=>x[0]===type)?.[2]||'⚔️'}</text></svg>`
+}
+$('gameGrid').innerHTML=games.map(g=>`<article class="card" style="background:${g[4]}" onclick="openGame('${g[0]}')">${art(g[0])}<div class="shade"></div><span class="tag">${g[3]}</span><div class="label"><b>${g[2]} ${g[1]}</b><small>Открыть игру →</small></div></article>`).join('');
+$('leaderList').innerHTML=['NEON_FOX','KRYPT0','FRUTI','VOID77','MANGO'].map((n,i)=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 4px;border-bottom:1px solid #202a40"><b>${i+1}. ${n}</b><span style="color:${i===0?'#ffd76a':'#9aa6c1'}">${[18420,15300,12990,10220,8940][i].toLocaleString()} 🪙</span></div>`).join('');
+function resetBalance(){balance=1000;save();toast('Баланс сброшен')}
+save();
+
+/* CRASH canvas */
+let crashRAF=0,crashRunning=false,crashValue=1,crashBetValue=0,crashStartTime=0,crashEnd=2.5,crashed=false,crashRound=1;
+const cc=$('crashCanvas'),cx=cc.getContext('2d');
+function resizeCanvas(c){const r=c.getBoundingClientRect(),d=devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;return [r.width,r.height,d]}
+let cw=0,ch=0;
+function initCrash(){[cw,ch]=resizeCanvas(cc);drawCrash(0)}
+function drawCrash(t,boom=false,cash=false){
+ if(!cw){[cw,ch]=resizeCanvas(cc)};const d=devicePixelRatio||1;cx.setTransform(d,0,0,d,0,0);
+ let g=cx.createLinearGradient(0,0,0,ch);g.addColorStop(0,'#102b50');g.addColorStop(.55,'#0a1428');g.addColorStop(1,'#070a12');cx.fillStyle=g;cx.fillRect(0,0,cw,ch);
+ // stars
+ for(let i=0;i<35;i++){const x=(i*83)%cw,y=(i*47)%180;cx.fillStyle='#cceeff'+(i%3?'33':'77');cx.fillRect(x,y,1.5,1.5)}
+ // clouds
+ for(let i=0;i<5;i++){const x=(i*145-(t*8)%145),y=70+(i%3)*38;cx.fillStyle='#b9d9ff12';cx.beginPath();cx.arc(x,y,28,0,7);cx.arc(x+25,y+3,20,0,7);cx.fill()}
+ // mountains/city
+ cx.fillStyle='#060b14';cx.beginPath();cx.moveTo(0,ch);for(let x=0;x<=cw;x+=45)cx.lineTo(x,250+Math.sin(x*.04)*28);cx.lineTo(cw,ch);cx.fill();
+ for(let i=0;i<18;i++){let x=i*34+(t*4%34);let h=18+(i*17%55);cx.fillStyle='#0f1b2b';cx.fillRect(x,ch-50-h,26,h);for(let w=0;w<2;w++)for(let q=0;q<3;q++){cx.fillStyle='#ffd76a33';cx.fillRect(x+5+w*9,ch-45-h+8+q*12,3,5)}}
+ // graph
+ const progress=Math.min(1,t/5), sx=35, sy=ch-65, ex=cw-25, ey=65;
+ cx.strokeStyle='#5be7ff';cx.lineWidth=3;cx.shadowBlur=12;cx.shadowColor='#5be7ff';cx.beginPath();for(let i=0;i<=60*progress;i++){let p=i/60,x=sx+(ex-sx)*p,y=sy-(sy-ey)*Math.pow(p,1.75);if(i===0)cx.moveTo(x,y);else cx.lineTo(x,y)}cx.stroke();cx.shadowBlur=0;
+ // plane
+ let p=progress,px=sx+(ex-sx)*p,py=sy-(sy-ey)*Math.pow(p,1.75);
+ cx.save();cx.translate(px,py);cx.rotate(-.18);cx.shadowBlur=22;cx.shadowColor='#62eaff';cx.fillStyle='#edfaff';cx.beginPath();cx.moveTo(-25,5);cx.lineTo(35,-3);cx.lineTo(16,8);cx.lineTo(38,14);cx.lineTo(12,15);cx.lineTo(0,11);cx.lineTo(-20,18);cx.lineTo(-6,8);cx.closePath();cx.fill();cx.fillStyle='#7566ff';cx.beginPath();cx.moveTo(-3,9);cx.lineTo(-20,28);cx.lineTo(9,12);cx.fill();cx.fillStyle='#ffbd61';cx.beginPath();cx.arc(-25,8,5,0,7);cx.fill();cx.restore();
+ if(boom){for(let i=0;i<28;i++){let a=i*.9,rr=20+((i*17)%55);cx.fillStyle=i%2?'#ff5c62':'#ffd76a';cx.beginPath();cx.arc(px+Math.cos(a)*rr,py+Math.sin(a)*rr,2+(i%3),0,7);cx.fill()}cx.strokeStyle='#ff5574';cx.lineWidth=4;cx.beginPath();cx.arc(px,py,25+(t%1)*50,0,7);cx.stroke()}
+ if(cash){cx.strokeStyle='#45f0a1';cx.lineWidth=5;cx.beginPath();cx.arc(px,py,35,0,7);cx.stroke()}
+}
+function startCrash(){
+ if(crashRunning)return;crashBetValue=amount('crashBet');if(!bet(crashBetValue))return;crashEnd=1.2+Math.random()*4.5;crashValue=1;crashRunning=true;crashed=false;crashStartTime=performance.now();$('crashStart').style.display='none';$('cashBtn').style.display='block';$('crashStatus').textContent='В ПОЛЁТЕ';$('crashRound').textContent='';vibrate('medium');cancelAnimationFrame(crashRAF);crashLoop()}
+function crashLoop(now=performance.now()){if(!crashRunning)return;let t=(now-crashStartTime)/1000;crashValue=1+Math.pow(t*.42,1.6);$('crashMult').innerHTML=crashValue.toFixed(2)+'<span>x</span>';drawCrash(t,false);let auto=Number($('auto').value);if(crashValue>=crashEnd){crashRunning=false;crashed=true;drawCrash(t,true);$('crashStatus').textContent='💥 CRASH '+crashEnd.toFixed(2)+'x';$('cashBtn').style.display='none';$('crashStart').style.display='block';$('crashStart').textContent='НОВЫЙ ПОЛЁТ';toast('Crash на '+crashEnd.toFixed(2)+'x');vibrate('heavy');crashRound++;$('round').textContent=String(crashRound).padStart(3,'0');return}if(auto>1&&crashValue>=auto){cashCrash();return}crashRAF=requestAnimationFrame(crashLoop)}
+function cashCrash(){if(!crashRunning)return;crashRunning=false;let win=crashBetValue*crashValue;reward(win);drawCrash((performance.now()-crashStartTime)/1000,false,true);$('crashStatus').textContent='✓ CASH OUT '+crashValue.toFixed(2)+'x';$('cashBtn').style.display='none';$('crashStart').style.display='block';$('crashStart').textContent='НОВЫЙ ПОЛЁТ'}
+
+/* MINES */
+let mineSet=new Set(),mineActive=false,mineBetValue=0;
+function newMines(){mineBetValue=amount('mineBet');if(!bet(mineBetValue))return;mineSet=new Set();while(mineSet.size<5)mineSet.add(Math.floor(Math.random()*25));mineActive=true;$('mineGrid').innerHTML=Array.from({length:25},(_,i)=>`<div class="minecell" onclick="mineOpen(${i},this)"><span class="shine"></span></div>`).join('');toast('Поле создано')}
+function mineOpen(i,el){if(!mineActive||el.classList.contains('open')||el.classList.contains('mine'))return;vibrate('light');if(mineSet.has(i)){el.classList.add('mine');el.innerHTML='<div class="gem">💥</div>';mineActive=false;toast('Мина! Ставка сгорела');document.querySelectorAll('.minecell').forEach((x,j)=>{if(mineSet.has(j)){x.classList.add('mine');x.innerHTML='<div class="gem">💣</div>'}})}else{el.classList.add('open');el.innerHTML='<div class="gem">💎</div>';reward(Math.max(2,Math.floor(mineBetValue*.28)));}}
+
+/* UFC */
+let hp1=100,hp2=100,ufcStarted=false;
+function fight(start=false){if(start){hp1=100;hp2=100;ufcStarted=true;$('hp1').style.width='100%';$('hp2').style.width='100%';$('ufcRound').textContent='ROUND 1';toast('Бой начался');return}if(!ufcStarted){toast('Сначала начните бой');return}let b=amount('ufcBet');if(!bet(b))return;let dmg=10+Math.floor(Math.random()*25);if(Math.random()<.5)hp2=Math.max(0,hp2-dmg);else hp1=Math.max(0,hp1-dmg);$('hp1').style.width=hp1+'%';$('hp2').style.width=hp2+'%';$('hit').classList.remove('on');void $('hit').offsetWidth;$('hit').classList.add('on');vibrate('medium');if(hp1===0||hp2===0){let win=hp1>0?b*1.8:b*.0;if(win)reward(win);toast(hp1>0?'🏆 RED WINS':'🏆 BLUE WINS');ufcStarted=false}}
+
+/* PLINKO */
+const mults=[.2,.5,.8,1.2,1.8,3,5,3,1.8,1.2,.8,.5,.2];
+function initPlinko(){let p=$('pegs');p.innerHTML='';for(let r=0;r<7;r++)for(let c=0;c<7;c++){let e=document.createElement('i');e.className='peg';e.style.left=(8+c*14+(r%2?7:0))+'%';e.style.top=(r*13+2)+'%';p.appendChild(e)}$('slots').innerHTML=mults.map(x=>`<div class="slot">${x}x</div>`).join('')}
+function dropPlinko(){let b=amount('plinkoBet');if(!bet(b))return;let ball=$('ball');let target=Math.floor(Math.random()*13),x=50,y=12;let step=0;let timer=setInterval(()=>{step++;x+=(Math.random()<.5?-1:1)*7;y+=11;ball.style.left=`${Math.max(4,Math.min(94,x))}%`;ball.style.top=`${Math.min(78,y)}%`;vibrate('light');if(step>=7){clearInterval(timer);let win=b*mults[target];document.querySelectorAll('.slot')[target].classList.add('win');setTimeout(()=>document.querySelectorAll('.slot')[target].classList.remove('win'),650);$('plinkoResult').textContent=mults[target]+'x';if(win>0)reward(win);}} ,95)}
+
+/* SLOTS */
+const syms=['🍒','💎','7️⃣','🍋','🔔','⭐'];
+function spinSlots(){let b=amount('slotBet');if(!bet(b))return;document.querySelectorAll('.reel').forEach(x=>x.classList.add('spin'));$('slotResult').textContent='SPINNING...';let vals=[];setTimeout(()=>{document.querySelectorAll('.reel').forEach(x=>x.classList.remove('spin'));vals=[0,1,2].map(()=>syms[Math.floor(Math.random()*syms.length)]);['r1','r2','r3'].forEach((id,i)=>$(id).textContent=vals[i]);let win=vals[0]===vals[1]&&vals[1]===vals[2]?b*5:vals[0]===vals[1]||vals[1]===vals[2]?b*1.6:0;if(win){reward(win);$('slotResult').textContent='JACKPOT × '+(win/b).toFixed(1)}else $('slotResult').textContent='TRY AGAIN';},1100)}
+
+/* CASE */
+function openCase(){if(!bet(100))return;let c=$('case3d'),r=$('reward');c.classList.remove('open');r.classList.remove('show');void c.offsetWidth;void r.offsetWidth;c.classList.add('open');setTimeout(()=>{let n=[120,180,250,400,700][Math.floor(Math.random()*5)];$('rewardVal').textContent='+'+n;r.classList.add('show');reward(n)},650)}
+
+/* PICKAXE */
+function mineHit(){let b=amount('pickBet');if(!bet(b))return;let p=$('pickaxe'),c=$('crack');p.classList.remove('hit');c.classList.remove('show');void p.offsetWidth;void c.offsetWidth;p.classList.add('hit');c.classList.add('show');vibrate('medium');let n=Math.random()<.22?b*4:b*.4;if(n)reward(n);$('ore').textContent=n>b?'RARE CRYSTAL':'STONE'}
+
+/* PEPE */
+let score=0;
+function pepePlay(){let b=amount('pepeBet');if(!bet(b))return;score+=Math.floor(10+Math.random()*35);$('pepeScore').textContent=String(score).padStart(3,'0');reward(b*(Math.random()<.18?2.4:.7));vibrate('light');}
+
+/* PVP */
+function pvpPlay(){let b=amount('pvpBet');if(!bet(b))return;setTimeout(()=>{if(Math.random()<.5){reward(b*1.9);toast('⚔️ Победа в дуэли!')}else toast('Соперник оказался сильнее');},500)}
+window.addEventListener('resize',()=>{if($('crash').classList.contains('active')){[cw,ch]=resizeCanvas(cc);drawCrash(0)}})
+</script>
+</body>
+</html>
